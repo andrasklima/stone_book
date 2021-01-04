@@ -1,5 +1,9 @@
 "use strict";
 
+function htmlEntities(str) {
+  return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
 function page_load() {
   var root = document.querySelector("#root");
   var stones = [];
@@ -8,60 +12,67 @@ function page_load() {
   stones.push({
     category: "HTML",
     title: "HEAD-be kerüljenek a scriptek",
-    example: "\n      <head>\n        <script src=\"./js/main.js\"></script>\n      </head>"
+    example: "\n      <head>\n        <script src=\"./js/main.js\"></script>\n      </head>\n      "
   });
   stones.push({
     category: "HTML",
     title: "inline style elkerülése, helyette class használat",
-    example: "\n      <div style=\"display: none;\"></div>\n\n      <style>\n        .hide {\n          display: none;\n        }\n      </style>\n      <div class=\"hide\"></div>"
+    example: "\n      <div style=\"display: none;\"></div>\n\n      <style>\n        .hide {\n          display: none;\n        }\n      </style>\n      <div class=\"hide\"></div>\n      "
   });
   stones.push({
     category: "HTML",
     title: "id-k helyett class használat",
-    example: "\n      <div id=\"image-1\"></div>\n      <div id=\"image-2\"></div>\n\n      <div class=\"image\"></div>\n      <div class=\"image\"></div>"
+    example: "\n      <div id=\"image-1\"></div>\n      <div id=\"image-2\"></div>\n\n      <div class=\"image\"></div>\n      <div class=\"image\"></div>\n      "
   });
   /* CSS/SCSS */
 
   stones.push({
     category: "CSS/SCSS",
     title: "& jel használat",
-    example: "\n      <style>\n        .content {\n          &.move {  // <div class=\"content move\"></div>\n            transform: translateY(-15px);    \n          }\n        }\n\n        .content {  // <div class=\"content\"><div class=\"move\"></div></div>\n          .move {\n            transform: translateY(-15px);    \n          }\n        }\n      </style>"
+    example: "\n      <style>\n        .content {\n          &.move {  // <div class=\"content move\"></div>\n            transform: translateY(-15px);    \n          }\n        }\n\n        .content {  // <div class=\"content\"><div class=\"move\"></div></div>\n          .move {\n            transform: translateY(-15px);    \n          }\n        }\n      </style>\n      "
   });
   stones.push({
     category: "CSS/SCSS",
     title: ", használat translate-nál",
-    example: "\n      <style>\n        transform: translate(100%, 50%);\n      </style>"
+    example: "\n      <style>\n        transform: translate(100%, 50%);\n      </style>\n      "
   });
   stones.push({
     category: "CSS/SCSS",
     title: "rgb vs rgba",
-    example: "\n      <style>\n        color: rgb(28, 28, 28);\n        color: rgba(28, 28, 28, 0.75);\n      </style>"
+    example: "\n      <style>\n        color: rgb(28, 28, 28);\n        color: rgba(28, 28, 28, 0.75);\n      </style>\n      "
   });
   /* JS */
 
   stones.push({
     category: "Javascript",
     title: "var helyett let/const használat",
-    example: "\n      <script>\n        var score;\n\n        let score;\n      </script>"
+    example: "\n      <script>\n        var score;\n\n        let score;\n      </script>\n      "
   });
   stones.push({
     category: "Javascript",
     title: "getElementById vs querySelector",
-    example: "\n      <script>\n        let elem = document.getElementById(\"content\");\n\n        let elem = document.querySelector(\"#content\");\n      </script>"
+    example: "\n      <script>\n        let elem = document.getElementById(\"content\");\n\n        let elem = document.querySelector(\"#content\");\n      </script>\n      "
   });
   stones.push({
     category: "Javascript",
     title: ".style használat elkerülése (helyette addClass)",
-    example: "\n      <script>\n        polygon.parentElement.style.zIndex = ++zIndex;\n      </script>"
+    example: "\n      <script>\n        polygon.parentElement.style.zIndex = ++zIndex;\n      </script>\n      "
   });
 
   for (var _i = 0, _stones = stones; _i < _stones.length; _i++) {
     stone = _stones[_i];
-    root.insertAdjacentHTML("beforeend", "\n      <div class=\"content\">\n        <h2>".concat(stone.category, "</h2>\n        <h3>").concat(stone.title, "</h3>\n        <pre><code></code></pre>\n      </div>\n      "));
-    var nodes = root.querySelectorAll(".content");
-    var lastNode = nodes[nodes.length - 1];
-    lastNode.querySelector("code").textContent = stone.example;
+    var source = htmlEntities(stone.example);
+    root.insertAdjacentHTML("beforeend", "\n      <div class=\"content\">\n        <h2>".concat(stone.category, "</h2>\n        <h3>").concat(stone.title, "</h3>\n        <pre><code>").concat(source, "</code></pre>\n      </div>\n      "));
+    /*  
+        let nodes = root.querySelectorAll(".content");
+        let lastNode = nodes[nodes.length - 1];
+        lastNode.querySelector("code").textContent = stone.example;
+    */
   }
+
+  document.querySelectorAll("pre code").forEach(function (block) {
+    hljs.highlightBlock(block);
+  });
   /*
   code comment
   */
@@ -148,7 +159,6 @@ function page_load() {
     hljs.highlightBlock(block);
   });
   */
-
 }
 
 window.addEventListener("load", page_load);

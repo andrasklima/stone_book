@@ -1,3 +1,11 @@
+function htmlEntities(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function page_load() {
   let root = document.querySelector("#root");
 
@@ -10,7 +18,8 @@ function page_load() {
     example: `
       <head>
         <script src="./js/main.js"></script>
-      </head>`,
+      </head>
+      `
   });
 
   stones.push({
@@ -24,7 +33,8 @@ function page_load() {
           display: none;
         }
       </style>
-      <div class="hide"></div>`,
+      <div class="hide"></div>
+      `
   });
 
   stones.push({
@@ -35,7 +45,8 @@ function page_load() {
       <div id="image-2"></div>
 
       <div class="image"></div>
-      <div class="image"></div>`,
+      <div class="image"></div>
+      `
   });
 
   /* CSS/SCSS */
@@ -55,7 +66,8 @@ function page_load() {
             transform: translateY(-15px);    
           }
         }
-      </style>`,
+      </style>
+      `
   });
 
   stones.push({
@@ -64,7 +76,8 @@ function page_load() {
     example: `
       <style>
         transform: translate(100%, 50%);
-      </style>`,
+      </style>
+      `
   });
 
   stones.push({
@@ -74,7 +87,8 @@ function page_load() {
       <style>
         color: rgb(28, 28, 28);
         color: rgba(28, 28, 28, 0.75);
-      </style>`,
+      </style>
+      `
   });
 
   /* JS */
@@ -86,7 +100,8 @@ function page_load() {
         var score;
 
         let score;
-      </script>`,
+      </script>
+      `
   });
 
   stones.push({
@@ -97,7 +112,8 @@ function page_load() {
         let elem = document.getElementById("content");
 
         let elem = document.querySelector("#content");
-      </script>`,
+      </script>
+      `
   });
 
   stones.push({
@@ -106,25 +122,34 @@ function page_load() {
     example: `
       <script>
         polygon.parentElement.style.zIndex = ++zIndex;
-      </script>`,
+      </script>
+      `
   });
 
   for (stone of stones) {
+    let source = htmlEntities(stone.example);
+
     root.insertAdjacentHTML(
       "beforeend",
       `
       <div class="content">
         <h2>${stone.category}</h2>
         <h3>${stone.title}</h3>
-        <pre><code></code></pre>
+        <pre><code>${source}</code></pre>
       </div>
       `
     );
 
+/*  
     let nodes = root.querySelectorAll(".content");
     let lastNode = nodes[nodes.length - 1];
     lastNode.querySelector("code").textContent = stone.example;
+*/
   }
+
+  document.querySelectorAll("pre code").forEach((block) => {
+    hljs.highlightBlock(block);
+  });
 
   /*
   code comment
