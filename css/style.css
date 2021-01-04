@@ -1,0 +1,46 @@
+/* style.scss */
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: bisque;
+  color: #404040;
+}
+
+h1 {
+  padding: 15px;
+  text-align: center;
+  font-family: "Rubik", sans-serif;
+  font-size: xx-large;
+}
+
+h2 {
+  padding: 10px 15px;
+  text-align: left;
+  font-family: "Rubik", sans-serif;
+  font-size: x-large;
+  border-bottom: 2px solid gray;
+}
+
+h3 {
+  padding: 5px 15px;
+  text-align: left;
+  font-family: "Rubik", sans-serif;
+  font-size: large;
+}
+
+#root {
+  width: 50vw;
+  transform: translateX(calc(50vw - 50%));
+  font-family: "Karla", sans-serif;
+  font-size: medium;
+}
+#root .content {
+  margin: 15px;
+  border: 2px dashed gray;
+}
